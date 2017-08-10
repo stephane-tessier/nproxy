@@ -18,7 +18,7 @@ I've written a post named [NProxy: The Mjolnir for UI Developers](http://en.blog
 
 ## Features
 
-* Support Mac, Linux and Windows  
+* Support Mac, Linux and Windows
 * Support both single file and combo file replacing
 * Support directory mapping with any files
 * Support both HTTP and HTTPS
@@ -30,8 +30,8 @@ I've written a post named [NProxy: The Mjolnir for UI Developers](http://en.blog
 If you are not familiar with Node.js and NPM, you can visit the [How to install NProxy](https://github.com/goddyZhao/nproxy/wiki/How-to-install-NProxy) wiki page to get detail information about installation of NProxy
 
 ## Usage
-    
-    nproxy -l replace_rule.js 
+
+    nproxy -l replace_rule.js
 
     Setting your browser's proxy to 127.0.0.1:port(8989 by default)
 
@@ -68,12 +68,12 @@ If you don't know how to set proxy for browser, please read this wiki: [How to s
 
       // 3. replace combo file with src with absolute file path
       {
-        pattern: 'group/homepageTileFramework.*.js', 
+        pattern: 'group/homepageTileFramework.*.js',
         responder: [
           '/home/goddyzhao/workspace/webapp/ui/homepage/js/a.js',
           '/home/goddyzhao/workspace/webapp/ui/homepage/js/b.js',
           '/home/goddyzhao/workspace/webapp/ui/homepage/js/c.js'
-        ] 
+        ]
       },
 
       // 4. replace combo file with src with relative file path and specified dir
@@ -103,7 +103,7 @@ If you don't know how to set proxy for browser, please read this wiki: [How to s
 
       // 7. Map server image directory to local image directory with regular expression
       // This simple rule can replace multiple directories to corresponding locale ones
-      // For Example, 
+      // For Example,
       //   http://host:port/ui/a/img/... => /home/a/image/...
       //   http://host:port/ui/b/img/... => /home/b/image/...
       //   http://host:port/ui/c/img/... => /home/c/image/...
@@ -123,8 +123,8 @@ If you don't know how to set proxy for browser, please read this wiki: [How to s
         // use this if you want to use cache for POST requests also
         // cachePost : true
       },
-      
-      
+
+
       // 8. delay (fix) a response (to simulate network or so)
       {
         pattern: 'homepage.js',      // Match url you wanna replace
@@ -137,10 +137,20 @@ If you don't know how to set proxy for browser, please read this wiki: [How to s
         responder:  '/home/goddyzhao/workspace/homepage.js',
         delay: {min: 200, max: 2000} // random delay between 200 and 2000 ms
       }
-      
+
+      // 9. Change and cache http response into local files
+      // For Example,
+      //   http://host/someURL.html => http://host2/someURL.html => ./cache/someURL.html
+      {
+        pattern   : /host\/(someURL)/,
+        responder : 'http://host2/$1',
+        cacheResponder : __dirname + '/cache/$1.html',
+        cache     : true
+      },
+
     ];
 
-You can use the [template file](https://github.com/goddyzhao/nproxy/blob/master/replace-rule.sample.js) and replace it with your own configurations. 
+You can use the [template file](https://github.com/goddyzhao/nproxy/blob/master/replace-rule.sample.js) and replace it with your own configurations.
 
 ## Quickly setup rule files for SF project
 
